@@ -1,0 +1,343 @@
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class ExercicioTeatro {
+    
+    public static void main(String[] args) {
+        Scanner leia = new Scanner(System.in);
+        int opcao;
+
+        char[][] sala1 = new char[12][12];
+        char[][] sala2 = new char[12][12];
+        char[][] sala3 = new char[12][12];
+
+        inicializarSala(sala1);
+        inicializarSala(sala2);
+        inicializarSala(sala3);
+        
+        int vendidosSala1 = 0;
+        int vendidosSala2 = 0;
+        int vendidosSala3 = 0;
+        
+        double precoIngresso = 50.0;
+
+        do {
+            System.out.println("TEATRO DEVISATE - ANTONIO DEVISATE");
+            System.out.println("1 - Reservar cadeira");
+            System.out.println("2 - Comprar ingresso");
+            System.out.println("3 - Cancelar reserva");
+            System.out.println("4 - Ver mapa de sala");
+            System.out.println("5 - Relatorio financeiro");
+            System.out.println("6 - Lista de exercicio");
+            System.out.println("0 - Sair");
+            System.out.print("Opcao: ");
+            opcao = leia.nextInt();
+            leia.nextLine();
+
+            switch (opcao) {
+                case 1:
+                    System.out.print("Qual sala (1, 2 ou 3)? ");
+                    int salaR = leia.nextInt();
+                    leia.nextLine();
+                    System.out.print("Qual cadeira (A1 ate L12)? ");
+                    String posR = leia.nextLine().toUpperCase();
+                    
+                    if (salaR == 1) {
+                        if (reservar(sala1, posR)) {
+                            System.out.println("Reservado com sucesso!");
+                        } else {
+                            System.out.println("Erro ao reservar.");
+                        }
+                    } else if (salaR == 2) {
+                        if (reservar(sala2, posR)) {
+                            System.out.println("Reservado com sucesso!");
+                        } else {
+                            System.out.println("Erro ao reservar.");
+                        }
+                    } else if (salaR == 3) {
+                        if (reservar(sala3, posR)) {
+                            System.out.println("Reservado com sucesso!");
+                        } else {
+                            System.out.println("Erro ao reservar.");
+                        }
+                    } else {
+                        System.out.println("Sala invalida.");
+                    }
+                    break;
+                    
+                case 2:
+                    System.out.print("Qual sala (1, 2 ou 3)? ");
+                    int salaC = leia.nextInt();
+                    leia.nextLine();
+                    System.out.print("Qual cadeira (A1 ate L12)? ");
+                    String posC = leia.nextLine().toUpperCase();
+                    
+                    if (salaC == 1) {
+                        if (comprar(sala1, posC)) {
+                            vendidosSala1++;
+                            System.out.println("Ingresso comprado!");
+                        } else {
+                            System.out.println("Erro ao comprar.");
+                        }
+                    } else if (salaC == 2) {
+                        if (comprar(sala2, posC)) {
+                            vendidosSala2++;
+                            System.out.println("Ingresso comprado!");
+                        } else {
+                            System.out.println("Erro ao comprar.");
+                        }
+                    } else if (salaC == 3) {
+                        if (comprar(sala3, posC)) {
+                            vendidosSala3++;
+                            System.out.println("Ingresso comprado!");
+                        } else {
+                            System.out.println("Erro ao comprar.");
+                        }
+                    } else {
+                        System.out.println("Sala invalida.");
+                    }
+                    break;
+                    
+                case 3:
+                    System.out.print("Qual sala (1, 2 ou 3)? ");
+                    int salaCan = leia.nextInt();
+                    leia.nextLine();
+                    System.out.print("Qual cadeira (A1 ate L12)? ");
+                    String posCan = leia.nextLine().toUpperCase();
+                    
+                    if (salaCan == 1) {
+                        if (cancelar(sala1, posCan)) {
+                            System.out.println("Reserva cancelada.");
+                        } else {
+                            System.out.println("Erro ao cancelar.");
+                        }
+                    } else if (salaCan == 2) {
+                        if (cancelar(sala2, posCan)) {
+                            System.out.println("Reserva cancelada.");
+                        } else {
+                            System.out.println("Erro ao cancelar.");
+                        }
+                    } else if (salaCan == 3) {
+                        if (cancelar(sala3, posCan)) {
+                            System.out.println("Reserva cancelada.");
+                        } else {
+                            System.out.println("Erro ao cancelar.");
+                        }
+                    } else {
+                        System.out.println("Sala invalida.");
+                    }
+                    break;
+                    
+                case 4:
+                    System.out.print("Qual sala (1, 2 ou 3)? ");
+                    int salaM = leia.nextInt();
+                    
+                    if (salaM == 1) {
+                        exibirMapa(sala1);
+                    } else if (salaM == 2) {
+                        exibirMapa(sala2);
+                    } else if (salaM == 3) {
+                        exibirMapa(sala3);
+                    } else {
+                        System.out.println("Sala invalida.");
+                    }
+                    break;
+                    
+                case 5:
+                    int totalVendidos = vendidosSala1 + vendidosSala2 + vendidosSala3;
+                    double totalArrecadado = totalVendidos * precoIngresso;
+                    
+                    System.out.println("=== RELATORIO ===");
+                    System.out.println("Sala 1 vendidos: " + vendidosSala1);
+                    System.out.println("Sala 2 vendidos: " + vendidosSala2);
+                    System.out.println("Sala 3 vendidos: " + vendidosSala3);
+                    System.out.println("Total vendidos: " + totalVendidos);
+                    System.out.println("Total arrecadado: R$ " + totalArrecadado);
+                    break;
+                    
+                case 6:
+                    menuExercicios(leia);
+                    break;
+                    
+                case 0:
+                    System.out.println("Fechando sistema");
+                    break;
+                    
+                default:
+                    System.out.println("Opcao invalida");
+                    break;
+            }
+
+        } while (opcao != 0);
+        
+        leia.close();
+    }
+
+    public static void inicializarSala(char[][] sala) {
+        for (int i = 0; i < sala.length; i++) {
+            Arrays.fill(sala[i], 'D');
+        }
+    }
+    
+    public static void exibirMapa(char[][] sala) {
+        System.out.print("    ");
+        for (int j = 1; j <= 12; j++) {
+            System.out.printf("%-3d ", j);
+        }
+        System.out.println();
+        
+        for (int i = 0; i < sala.length; i++) {
+            char letra = (char) ('A' + i);
+            System.out.print(letra + "  ");
+            
+            for (int j = 0; j < sala[i].length; j++) {
+                System.out.print("[" + sala[i][j] + "] ");
+            }
+            System.out.println();
+        }
+    }
+    
+    public static boolean converterPosicao(String pos, int[] indices) {
+        if (pos.length() < 2 || pos.length() > 3) {
+            return false;
+        }
+        
+        char linhaChar = pos.charAt(0);
+        String colunaStr = pos.substring(1);
+        
+        int linha = linhaChar - 'A';
+        int coluna;
+        
+        try {
+            coluna = Integer.parseInt(colunaStr) - 1;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        
+        if (linha < 0 || linha > 11 || coluna < 0 || coluna > 11) {
+            return false;
+        }
+        
+        indices[0] = linha;
+        indices[1] = coluna;
+        return true;
+    }
+    
+    public static boolean reservar(char[][] sala, String posicao) {
+        int[] indices = new int[2];
+        
+        if (!converterPosicao(posicao, indices)) {
+            return false;
+        }
+        
+        int linha = indices[0];
+        int coluna = indices[1];
+        
+        if (sala[linha][coluna] == 'D') {
+            sala[linha][coluna] = 'R';
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public static boolean comprar(char[][] sala, String posicao) {
+        int[] indices = new int[2];
+        
+        if (!converterPosicao(posicao, indices)) {
+            return false;
+        }
+        
+        int linha = indices[0];
+        int coluna = indices[1];
+        
+        if (sala[linha][coluna] == 'D' || sala[linha][coluna] == 'R') {
+            sala[linha][coluna] = 'C';
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public static boolean cancelar(char[][] sala, String posicao) {
+        int[] indices = new int[2];
+        
+        if (!converterPosicao(posicao, indices)) {
+            return false;
+        }
+        
+        int linha = indices[0];
+        int coluna = indices[1];
+        
+        if (sala[linha][coluna] == 'R') {
+            sala[linha][coluna] = 'D';
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public static void menuExercicios(Scanner leia) {
+        String[] exercicios = {
+            "1. Soma de 1 a 100 usando for",
+            "2. Tabuada do 5 usando while",
+            "3. Contagem regressiva de 10 a 1",
+            "4. Soma de vetor usando for-each",
+            "5. Matriz identidade 3x3",
+            "6. Busca linear em vetor",
+            "7. Inverter vetor",
+            "8. Maior e menor do vetor",
+            "9. Ordenar com Arrays.sort()",
+            "10. Diagonal principal da matriz",
+            "11. Transposta de matriz",
+            "12. Soma de duas matrizes",
+            "13. Multiplicacao de matrizes",
+            "14. Vetor como parametro de metodo",
+            "15. Matriz irregular (jagged array)",
+            "16. Validacao de entrada com while",
+            "17. Do/while pelo menos uma vez",
+            "18. Break em loop aninhado",
+            "19. Continue pulando pares",
+            "20. Array 3D cubo"
+        };
+        
+        int pagina = 0;
+        int itensPorPagina = 5;
+        int totalPaginas = 4;
+        int opcaoPagina;
+        
+        do {
+            System.out.println("=== LISTA DE EXERCICIOS ===");
+            System.out.println("Pagina " + (pagina + 1) + " de " + totalPaginas);
+            
+            int inicio = pagina * itensPorPagina;
+            int fim = inicio + itensPorPagina;
+            
+            if (fim > exercicios.length) {
+                fim = exercicios.length;
+            }
+            
+            for (int i = inicio; i < fim; i++) {
+                System.out.println(exercicios[i]);
+            }
+            
+            System.out.println();
+            if (pagina > 0) {
+                System.out.println("8 - Pagina anterior");
+            }
+            if (pagina < totalPaginas - 1) {
+                System.out.println("9 - Proxima pagina");
+            }
+            System.out.println("0 - Voltar ao menu");
+            System.out.print("Opcao: ");
+            opcaoPagina = leia.nextInt();
+            
+            if (opcaoPagina == 9 && pagina < totalPaginas - 1) {
+                pagina++;
+            } else if (opcaoPagina == 8 && pagina > 0) {
+                pagina--;
+            }
+            
+        } while (opcaoPagina != 0);
+    }
+}
